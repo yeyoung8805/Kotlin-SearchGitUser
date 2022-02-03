@@ -20,8 +20,8 @@ class MainViewModel() : ViewModel() {
     // TODO:: Retrofit SingleTone
     //
     val enterTxt = MutableLiveData<String>("")
-    val result = MutableLiveData<MutableList<Data>>()
-    val gitUsers : LiveData<MutableList<Data>> = result
+    val result = MutableLiveData<ArrayList<Data>>()
+    val gitUsers : LiveData<ArrayList<Data>> = result
 
     fun getUserData() {
         val retrofit = Retrofit.Builder()
@@ -44,8 +44,8 @@ class MainViewModel() : ViewModel() {
 //            result.value = api.getInfoByUsername(enterTxt.value!!).items.toMutableList()
 
             //방법2
-            val resultValue = api.getInfoByUsername(enterTxt.value!!)
-            result.value = resultValue.items.toMutableList()
+            val resultValue = api.getInfoByUsername(enterTxt.value.toString())
+            result.value = (resultValue.items)
         }
     }
 }

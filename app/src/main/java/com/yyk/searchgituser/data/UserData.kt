@@ -27,7 +27,7 @@ import com.google.gson.annotations.SerializedName
         val incomplete_results: Boolean,
         @Expose
         @SerializedName("items")
-        val items : List<Data>
+        val items : ArrayList<Data>
         )
 
     data class Data(
