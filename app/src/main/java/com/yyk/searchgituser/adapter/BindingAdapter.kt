@@ -1,5 +1,6 @@
 package com.yyk.searchgituser.adapter
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,16 +11,21 @@ object BindingAdapter {
 
     @BindingAdapter("items")
     @JvmStatic
-    fun RecyclerView.setItems(gitUserList : ArrayList<Data>?) {
-        (this.adapter as? RecyclerViewAdapter)?.submitList(gitUserList?.toMutableList())
+    fun RecyclerView.setItems(gitUserList: ArrayList<Data>?) {
+        Log.e("PARK", "Binding")
+        Log.e("PARK", "${this.adapter is RecyclerViewAdapter}")
+        Log.e("PARK", "$gitUserList")
+        if (gitUserList != null) {
+            (this.adapter as? RecyclerViewAdapter)?.submitList(gitUserList.toMutableList())
+        }
     }
 
     @BindingAdapter("imageUrl")
     @JvmStatic
-    fun ImageView.loadImage(imageUrl : String) {
+    fun ImageView.loadImage(imageUrl: String) {
         Glide.with(context)
-                .load(imageUrl)
-                .error(com.yyk.searchgituser.R.drawable.ic_launcher_foreground)
-                .into(this)
+            .load(imageUrl)
+            .error(com.yyk.searchgituser.R.drawable.ic_launcher_foreground)
+            .into(this)
     }
 }

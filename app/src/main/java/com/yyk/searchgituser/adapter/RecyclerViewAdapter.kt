@@ -12,8 +12,6 @@ import com.yyk.searchgituser.databinding.ItemListBinding
 
 //class RecyclerViewAdapter(private val items : ArrayList<UserData>) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
 class RecyclerViewAdapter : ListAdapter<Data, RecyclerViewAdapter.MyViewHolder>(diffUtil) {
-//    var datalist = mutableListOf<Data>()
-    var datalist = arrayListOf<Data>()
 
     inner class MyViewHolder(private val binding : ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userData: Data){
@@ -41,12 +39,12 @@ class RecyclerViewAdapter : ListAdapter<Data, RecyclerViewAdapter.MyViewHolder>(
         val diffUtil = object : DiffUtil.ItemCallback<Data>() {
             override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
                 Log.e("RecyclerViewAdapter : ", "areItemsTheSame = ${oldItem==newItem}")
-                return oldItem ==newItem
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
                 Log.e("RecyclerViewAdapter : ", "areContentsTheSame = $oldItem $newItem")
-                return oldItem.avatar_url == newItem.avatar_url
+                return oldItem.id == newItem.id
             }
         }
     }
