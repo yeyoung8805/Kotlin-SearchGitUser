@@ -27,5 +27,4 @@ interface SearchGitUserInterface {
         @Query("q") keyword: String
     ): UserData
 
-
 }

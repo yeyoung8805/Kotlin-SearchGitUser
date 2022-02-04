@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.yyk.searchgituser.`interface`.SearchGitUserInterface
 import com.yyk.searchgituser.data.Data
 import com.yyk.searchgituser.data.UserData
+import com.yyk.searchgituser.module.RetrofitModule
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 
-class MainViewModel : ViewModel() {
+class MainViewModel() : ViewModel() {
     // TODO:: Retrofit SingleTon
     //
     val enterTxt = MutableLiveData<String>("")
@@ -27,26 +28,6 @@ class MainViewModel : ViewModel() {
     var items: ArrayList<Data> = arrayListOf()
 
     fun getUserData() {
-        val client = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor {
-                it.proceed(
-                    it.request()
-                        .newBuilder()
-//                        .addHeader("accept", "application/vnd.github.v3+json")
-                        .build()
-                )
-            }
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-
-        val api = retrofit.create(SearchGitUserInterface::class.java)
-        Log.e("PARK", "------START")
         viewModelScope.launch {
             //방법1
 //            result.value = api.getInfoByUsername(enterTxt.value!!).items.toMutableList()
@@ -54,7 +35,8 @@ class MainViewModel : ViewModel() {
             //방법2
             Log.e("PARK", "------ ${enterTxt.value.toString()}")
             try {
-                val resultValue = api.getInfoByUsername(enterTxt.value.toString())
+                val resultValue = RetrofitModule.service.getInfoByUsername(enterTxt.value.toString())
+
                 Log.e("PARK", "------ ${resultValue}")
                 result.value = resultValue.items
 
