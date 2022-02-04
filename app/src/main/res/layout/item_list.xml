@@ -20,7 +20,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/ic_launcher_round"
+            imageUrl="@{user.avatar_url}"/>
 
         <TextView
             android:id="@+id/tv_user_id"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/tv_user_id"
             app:layout_constraintBottom_toBottomOf="@+id/iv_profile_image"
-            android:text="user Github URL"
+            android:text="@{user.html_url}"
             android:textSize="20dp"
             android:ellipsize="marquee" />
 

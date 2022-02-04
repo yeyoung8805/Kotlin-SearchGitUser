@@ -16,12 +16,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
     // TODO:: Retrofit SingleTone
     //
     val enterTxt = MutableLiveData<String>("")
     val result = MutableLiveData<ArrayList<Data>>()
     val gitUsers : LiveData<ArrayList<Data>> = result
+    var items : ArrayList<Data> = arrayListOf()
 
     fun getUserData() {
         val retrofit = Retrofit.Builder()
