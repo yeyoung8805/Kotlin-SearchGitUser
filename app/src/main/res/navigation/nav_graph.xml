@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/main_screen">
+
+    <fragment
+        android:id="@+id/main_screen"
+        android:name="com.yyk.searchgituser.ui.MainFragment"
+        android:label="Main screen"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_main_screen_to_search_screen"
+            app:destination="@+id/search_screen"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_screen"
+        android:name="com.yyk.searchgituser.ui.SearchFragment"
+        android:label="Search screen"
+        tools:layout="@layout/fragment_search" />
+
+</navigation>
