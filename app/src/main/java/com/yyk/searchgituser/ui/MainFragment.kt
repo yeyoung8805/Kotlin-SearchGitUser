@@ -21,8 +21,4 @@ class MainFragment : Fragment() {
         }
         return view
     }
-
-//    fun moveScreenToSearchFragment() {
-//        Navigation.findNavController(binding.root).navigate(R.id.action_main_screen_to_search_screen)
-//    }
 }

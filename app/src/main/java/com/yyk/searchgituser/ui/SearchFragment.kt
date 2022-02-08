@@ -15,11 +15,7 @@ import com.yyk.searchgituser.databinding.FragmentSearchBinding
 import com.yyk.searchgituser.viewModel.MainViewModel
 
 class SearchFragment : Fragment() {
-//    var binding: FragmentSearchBinding
     lateinit var binding: FragmentSearchBinding
-//    private val binding: FragmentSearchBinding by lazy {
-//        initializeAdapter()
-//    }
     private val mainViewModel : MainViewModel by viewModels()
     private val adapter: RecyclerViewAdapter by lazy {
         RecyclerViewAdapter()
@@ -30,8 +26,6 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-//        val view = inflater.inflate(R.layout.search_fragment, container, false)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         binding.apply {
             binding.lifecycleOwner = this@SearchFragment
