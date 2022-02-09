@@ -4,22 +4,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/main_screen">
-
-    <fragment
-        android:id="@+id/main_screen"
-        android:name="com.yyk.searchgituser.ui.MainFragment"
-        android:label="Main screen"
-        tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_main_screen_to_search_screen"
-            app:destination="@+id/search_screen"/>
-    </fragment>
+    app:startDestination="@+id/search_screen">
 
     <fragment
         android:id="@+id/search_screen"
         android:name="com.yyk.searchgituser.ui.SearchFragment"
         android:label="Search screen"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_screen_to_star_screen"
+            app:destination="@+id/star_screen"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/star_screen"
+        android:name="com.yyk.searchgituser.ui.StarFragment"
+        android:label="Star screen"
+        tools:layout="@layout/fragment_star" >
+        <action
+            android:id="@+id/action_star_screen_to_search_screen"
+            app:destination="@+id/search_screen"/>
+        <action
+            android:id="@+id/action_star_screen_to_my_screen"
+            app:destination="@+id/my_screen"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/my_screen"
+        android:name="com.yyk.searchgituser.ui.MyFragment"
+        android:label="My screen"
+        tools:layout="@layout/fragment_my" >
+        <action
+            android:id="@+id/action_my_screen_to_star_screen"
+            app:destination="@+id/star_screen"/>
+    </fragment>
 
 </navigation>

@@ -26,38 +26,24 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"/>
 
-<!--    TODO(start) : layout backup for nav     -->
-<!--        -->
-<!--        <EditText-->
-<!--            android:id="@+id/et_search"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/btn_enter"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            android:hint="사용자 ID를 입력하세요."-->
-<!--            android:text="@={viewModel.enterTxt}"/>-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-<!--        <Button-->
-<!--            android:id="@+id/btn_enter"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/et_search"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            android:text="검색"-->
-<!--            android:onClick="@{()->viewModel.getUserData()}"/>-->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tab_layout"/>
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_user_list"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/btn_enter"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            items="@{viewModel.gitUsers}" />-->
-<!--        -->
-<!--    TODO(end) : layout backup for nav     -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

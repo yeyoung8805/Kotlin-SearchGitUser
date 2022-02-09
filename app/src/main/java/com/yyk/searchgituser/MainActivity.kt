@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yyk.searchgituser.adapter.FragmentAdapter
 import com.yyk.searchgituser.adapter.RecyclerViewAdapter
 import com.yyk.searchgituser.databinding.ActivityMainBinding
 import com.yyk.searchgituser.viewModel.MainViewModel
@@ -29,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        val pagerAdapter = FragmentAdapter(supportFragmentManager)
+        val pager = binding.viewPager
+        pager.adapter = pagerAdapter
+        val tab = binding.tabLayout
+        tab.setupWithViewPager(pager)
     }
 
     override fun onSupportNavigateUp(): Boolean {
