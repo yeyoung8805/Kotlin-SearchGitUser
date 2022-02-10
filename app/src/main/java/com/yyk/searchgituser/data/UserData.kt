@@ -5,13 +5,13 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 //class UserData {
-//    val user_image: Drawable?, //TODO 이게 맞는지 확인할것
-//    val user_image: String, //TODO 이게 맞는지 확인할것
+//    val user_image: Drawable?,
+//    val user_image: String,
 //    val user_id: String,
 //    val user_url: String
 
 //    @SerializedName("avatar_url")
-//    val avatar_url: String, //TODO 이게 맞는지 확인할것
+//    val avatar_url: String,
 //    @SerializedName("login")
 //    val login: String,
 //    @SerializedName("url")
