@@ -1,6 +1,5 @@
 package com.yyk.searchgituser.data
 
-import android.graphics.drawable.Drawable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,21 +7,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-//class UserData {
-//    val user_image: Drawable?,
-//    val user_image: String,
-//    val user_id: String,
-//    val user_url: String
-
-//    @SerializedName("avatar_url")
-//    val avatar_url: String,
-//    @SerializedName("login")
-//    val login: String,
-//    @SerializedName("url")
-//    val url: String
-
-//    data class UserInfo(
-    data class UserData(
+data class UserData(
         @Expose
         @SerializedName("total_count")
         val total_count: Int,
