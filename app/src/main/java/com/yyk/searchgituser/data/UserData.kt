@@ -24,7 +24,7 @@ data class UserData(
         @Expose
         @SerializedName("login")
         @PrimaryKey
-        @ColumnInfo(name = "login")
+        @ColumnInfo(name = "id")
         val login: String,
         @Expose
         @SerializedName("avatar_url")
