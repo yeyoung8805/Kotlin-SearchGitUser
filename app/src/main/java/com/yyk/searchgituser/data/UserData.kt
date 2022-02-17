@@ -19,20 +19,24 @@ data class UserData(
         val items : ArrayList<Data>
         )
 
-    @Entity(tableName = "git_user_table")
-    data class Data(
+@Entity(tableName = "git_user_table")
+data class Data(
         @Expose
         @SerializedName("login")
         @PrimaryKey
         @ColumnInfo(name = "id")
         val login: String,
+
         @Expose
         @SerializedName("avatar_url")
         @ColumnInfo(name = "avatar_url")
         val avatar_url: String,
+
         @Expose
         @SerializedName("html_url")
         @ColumnInfo(name = "html_url")
-        val html_url: String
+        val html_url: String,
+
+        @ColumnInfo(name="isLike")
+        var isLike:Boolean = false
     )
-//}

@@ -9,8 +9,18 @@ import javax.inject.Inject
 
 class GitUserDBRepository @Inject constructor(private val gitUserDao: GitUserDao) {
 
-    fun selectAll() = gitUserDao.getGitUserDB()
+    fun selectAll() = liveData {
+        emit(ResultStatus.Loading)
+        try {
+            val result = gitUserDao.getGitUserDB()
+            emit(ResultStatus.Success(result))
+        }catch (e: Exception) {
+            emit(ResultStatus.Error(e))
+        }
+    }
+
     suspend fun insert(gitUser: Data?) = gitUserDao.insert(gitUser)
+
     fun deleteOne(gitUserId : String) = liveData {
         emit(ResultStatus.Loading)
         try {

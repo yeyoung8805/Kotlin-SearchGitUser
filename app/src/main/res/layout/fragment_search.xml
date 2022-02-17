@@ -23,6 +23,7 @@
                     android:hint="사용자 ID를 입력하세요."
                     android:text="@={viewModel.enterTxt}"/>
 
+                <!-- android:onClick="@{()->viewModel.showGitUser()}" -->
                 <Button
                     android:id="@+id/btn_enter"
                     android:layout_width="wrap_content"
@@ -30,8 +31,7 @@
                     app:layout_constraintStart_toEndOf="@+id/et_search"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="검색"
-                    android:onClick="@{()->viewModel.getUserData()}"/>
+                    android:text="검색" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_user_list"

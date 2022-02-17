@@ -80,4 +80,33 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+    private fun showList() {
+        searchViewModel.showGitUser().observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is ResultStatus.Loading -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "API Select All",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is ResultStatus.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Failure ${result.throwable}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is ResultStatus.Success -> {
+                    if(result.data != null) {
+
+                    }
+                }
+            }
+
+        }
+    }
+
 }

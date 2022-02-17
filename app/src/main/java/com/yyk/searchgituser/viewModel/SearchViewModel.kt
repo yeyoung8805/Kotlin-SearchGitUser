@@ -27,18 +27,27 @@ class SearchViewModel @Inject constructor(
         enterTxt.value = "yeyoung"
     }
 
-    fun getUserData() {
-        viewModelScope.launch {
-            val result = gitUserAPIRepo.getGitUsers(enterTxt.value)
-            _gitUsers.value = result.items
-        }
-    }
+    fun showGitUser() = gitUserAPIRepo.getGitUsers(enterTxt.value)
+
+//    fun getUserData() {
+//        viewModelScope.launch {
+//            val result = gitUserAPIRepo.getGitUsers(enterTxt.value)
+//            _gitUsers.value = result.items
+//        }
+//    }
 
     fun changeLikeStatus(position: Int) = liveData {
         emit(ResultStatus.Loading)
         try {
-            val gitUserDB = _gitUsers.value?.get(position)
-            emit(ResultStatus.Success(gitUserDBRepo.insert(gitUserDB)))
+            var gitUserDB = _gitUsers.value?.get(position)
+//            emit(ResultStatus.Success(gitUserDBRepo.insert(gitUserDB)))
+            if(!gitUserDB?.isLike!!) {
+                gitUserDB?.isLike = true
+                emit(ResultStatus.Success(gitUserDBRepo.insert(gitUserDB)))
+            }else {
+                gitUserDB?.isLike = false
+                emit(ResultStatus.Success(gitUserDBRepo.deleteOne(gitUserDB.login)))
+            }
         }catch(e: Exception) {
             emit(ResultStatus.Error(e))
         }
