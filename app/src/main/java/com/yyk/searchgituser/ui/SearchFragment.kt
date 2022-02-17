@@ -23,17 +23,25 @@ import com.yyk.searchgituser.repository.GitUserDBRepository
 import com.yyk.searchgituser.viewModel.SearchViewModel
 import com.yyk.searchgituser.viewModel.SearchViewModelFactory
 import com.yyk.searchgituser.viewModel.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var searchFragmentBinding: FragmentSearchBinding
     lateinit var gitUserDao: GitUserDao
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private val searchViewModel : SearchViewModel by viewModels { SearchViewModelFactory(
-            GitUserAPIRepository(),
-            GitUserDBRepository(gitUserDao)
-    )}
+//    private val searchViewModel : SearchViewModel by viewModels { SearchViewModelFactory(
+//            GitUserAPIRepository(),
+//            GitUserDBRepository(gitUserDao)
+//    )}
+
+    private val searchViewModel : SearchViewModel by viewModels()
+
+    @Inject
+    lateinit var adapter : SearchRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +58,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchFragmentBinding.rvUserList.adapter = SearchRecyclerViewAdapter().apply {
+        searchFragmentBinding.rvUserList.adapter = adapter.apply {
             onClickLikeBtn = {
                 //TODO
                 Log.e("onClickLikeBtn Frag :: ", "$it")
@@ -59,10 +67,18 @@ class SearchFragment : Fragment() {
                     searchViewModel.changeLikeStatus(it).observe(viewLifecycleOwner) { result ->
                         when(result) {
                             ResultStatus.Loading -> {
-                                Toast.makeText(requireContext(), "Database insert", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Database insert",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             is ResultStatus.Error -> {
-                                Toast.makeText(requireContext(), "failure ${result.throwable}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "failure ${result.throwable}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             is ResultStatus.Success -> {
                                 if(result.data > 0) {

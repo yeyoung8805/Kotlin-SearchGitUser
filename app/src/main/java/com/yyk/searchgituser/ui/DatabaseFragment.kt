@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.yyk.searchgituser.adapter.SearchRecyclerViewAdapter
 import com.yyk.searchgituser.data.AppDatabase
 import com.yyk.searchgituser.data.GitUserDao
@@ -17,23 +16,25 @@ import com.yyk.searchgituser.repository.GitUserDBRepository
 import com.yyk.searchgituser.viewModel.DatabaseViewModel
 import com.yyk.searchgituser.viewModel.DatabaseViewModelFactory
 import com.yyk.searchgituser.viewModel.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DatabaseFragment : Fragment() {
 
     private lateinit var databaseFragmentBinding : FragmentDatabaseBinding
     lateinit var gitUserDao: GitUserDao
-    private val databaseViewModel: DatabaseViewModel by viewModels { DatabaseViewModelFactory(
-        GitUserDBRepository(gitUserDao)
-    ) }
+    private val databaseViewModel: DatabaseViewModel by viewModels()
     private val shareViewModel: SharedViewModel by activityViewModels()
+
+    @Inject
+    lateinit var adapter: SearchRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val view = inflater.inflate(R.layout.fragment_star, container, false)
-
         gitUserDao = AppDatabase.getInstance(requireContext()).gitUserDao()
         databaseFragmentBinding = FragmentDatabaseBinding.inflate(inflater, container, false).apply {
             vm = databaseViewModel
@@ -61,6 +62,6 @@ class DatabaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        databaseFragmentBinding.githubUserView.adapter = SearchRecyclerViewAdapter()
+        databaseFragmentBinding.githubUserView.adapter = adapter
     }
 }

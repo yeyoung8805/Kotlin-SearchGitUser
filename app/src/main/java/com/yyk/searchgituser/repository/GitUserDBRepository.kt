@@ -2,8 +2,9 @@ package com.yyk.searchgituser.repository
 
 import com.yyk.searchgituser.data.Data
 import com.yyk.searchgituser.data.GitUserDao
+import javax.inject.Inject
 
-class GitUserDBRepository(private val gitUserDao: GitUserDao) {
+class GitUserDBRepository @Inject constructor(private val gitUserDao: GitUserDao) {
 
     fun selectOne(gitUserDbId: String) = gitUserDao.getGitUserDB(gitUserDbId)
 

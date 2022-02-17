@@ -1,21 +1,26 @@
 package com.yyk.searchgituser.adapter
 
-import android.graphics.Color
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yyk.searchgituser.data.Data
 import com.yyk.searchgituser.databinding.ItemListBinding
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-//class RecyclerViewAdapter(private val items : ArrayList<UserData>) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
-class SearchRecyclerViewAdapter : ListAdapter<Data, SearchRecyclerViewAdapter.MyViewHolder>(diffUtil) {
+@FragmentScoped
+class SearchRecyclerViewAdapter @Inject constructor(@ActivityContext context: Context):
+    ListAdapter<Data, SearchRecyclerViewAdapter.MyViewHolder>(diffUtil) {
 
     var onClickLikeBtn: ((Int) -> Unit)? = null
-    inner class MyViewHolder(private val binding : ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    inner class MyViewHolder(private val binding : ItemListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Data, position: Int){
             binding.user = data
@@ -31,10 +36,7 @@ class SearchRecyclerViewAdapter : ListAdapter<Data, SearchRecyclerViewAdapter.My
         return MyViewHolder(binding)
     }
 
-//    override fun getItemCount(): Int = datalist.size
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//        holder.bind(getItem(position))
         holder.apply {
             bind(getItem(position), position)
         }

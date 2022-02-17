@@ -11,7 +11,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.yyk.searchgituser.adapter.ViewPagerAdapter
 import com.yyk.searchgituser.databinding.BottomNavBinding
 import com.yyk.searchgituser.databinding.FragmentStartBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StartFragment: Fragment() {
     private lateinit var startFragmentBinding: FragmentStartBinding
     private lateinit var bottomNavBinding: BottomNavBinding
