@@ -13,10 +13,10 @@ object BindingAdapter {
     @JvmStatic
     fun RecyclerView.setItems(gitUserList: ArrayList<Data>?) {
         Log.e("PARK", "Binding")
-        Log.e("PARK", "${this.adapter is RecyclerViewAdapter}")
+        Log.e("PARK", "${this.adapter is SearchRecyclerViewAdapter}")
         Log.e("PARK", "$gitUserList")
         if (gitUserList != null) {
-            (this.adapter as? RecyclerViewAdapter)?.submitList(gitUserList.toMutableList())
+            (this.adapter as? SearchRecyclerViewAdapter)?.submitList(gitUserList.toMutableList())
         }
     }
 

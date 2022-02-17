@@ -4,29 +4,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/search_screen">
+    app:startDestination="@+id/start_screen">
+
+    <fragment
+        android:id="@+id/start_screen"
+        android:name="com.yyk.searchgituser.ui.StartFragment"
+        android:label="Start screen"
+        tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/action_start_screen_to_search_screen"
+            app:destination="@+id/search_screen"/>
+        <action
+            android:id="@+id/action_start_screen_to_database_screen"
+            app:destination="@+id/database_screen"/>
+        <action
+            android:id="@+id/action_start_screen_to_my_screen"
+            app:destination="@+id/my_screen"/>
+    </fragment>
 
     <fragment
         android:id="@+id/search_screen"
         android:name="com.yyk.searchgituser.ui.SearchFragment"
         android:label="Search screen"
         tools:layout="@layout/fragment_search">
-        <action
-            android:id="@+id/action_search_screen_to_star_screen"
-            app:destination="@+id/star_screen"/>
     </fragment>
 
     <fragment
-        android:id="@+id/star_screen"
-        android:name="com.yyk.searchgituser.ui.StarFragment"
-        android:label="Star screen"
-        tools:layout="@layout/fragment_star" >
-        <action
-            android:id="@+id/action_star_screen_to_search_screen"
-            app:destination="@+id/search_screen"/>
-        <action
-            android:id="@+id/action_star_screen_to_my_screen"
-            app:destination="@+id/my_screen"/>
+        android:id="@+id/database_screen"
+        android:name="com.yyk.searchgituser.ui.DatabaseFragment"
+        android:label="Database screen"
+        tools:layout="@layout/fragment_database" >
     </fragment>
 
     <fragment
@@ -34,9 +41,6 @@
         android:name="com.yyk.searchgituser.ui.MyFragment"
         android:label="My screen"
         tools:layout="@layout/fragment_my" >
-        <action
-            android:id="@+id/action_my_screen_to_star_screen"
-            app:destination="@+id/star_screen"/>
     </fragment>
 
 </navigation>

@@ -6,7 +6,7 @@
         <data>
                 <variable
                     name="viewModel"
-                    type="com.yyk.searchgituser.viewModel.MainViewModel" />
+                    type="com.yyk.searchgituser.viewModel.SearchViewModel" />
         </data>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -1,46 +1,78 @@
 package com.yyk.searchgituser.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yyk.searchgituser.R
-import com.yyk.searchgituser.adapter.RecyclerViewAdapter
+import com.yyk.searchgituser.adapter.SearchRecyclerViewAdapter
+import com.yyk.searchgituser.data.AppDatabase
+import com.yyk.searchgituser.data.GitUserDao
+import com.yyk.searchgituser.data.ResultStatus
 import com.yyk.searchgituser.databinding.FragmentSearchBinding
-import com.yyk.searchgituser.viewModel.MainViewModel
+import com.yyk.searchgituser.repository.GitUserAPIRepository
+import com.yyk.searchgituser.repository.GitUserDBRepository
+import com.yyk.searchgituser.viewModel.SearchViewModel
+import com.yyk.searchgituser.viewModel.SearchViewModelFactory
+import com.yyk.searchgituser.viewModel.SharedViewModel
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
-    lateinit var binding: FragmentSearchBinding
-    private val mainViewModel : MainViewModel by viewModels()
-    private val adapter: RecyclerViewAdapter by lazy {
-        RecyclerViewAdapter()
-    }
+    private lateinit var searchFragmentBinding: FragmentSearchBinding
+    lateinit var gitUserDao: GitUserDao
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    private val searchViewModel : SearchViewModel by viewModels { SearchViewModelFactory(
+            GitUserAPIRepository(),
+            GitUserDBRepository(gitUserDao)
+    )}
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
-        binding.apply {
-            binding.lifecycleOwner = this@SearchFragment
-            binding.viewModel = mainViewModel
+    ): View? {
+        gitUserDao = AppDatabase.getInstance(requireContext()).gitUserDao()
+        searchFragmentBinding = FragmentSearchBinding.inflate(inflater, container, false).apply {
+            viewModel = searchViewModel
+            lifecycleOwner = this@SearchFragment
         }
-
-        initializeAdapter()
-        return binding.root
-
+        return searchFragmentBinding.root
     }
 
-    private fun initializeAdapter() {
-        binding.rvUserList.run {
-            adapter = this@SearchFragment.adapter
-            layoutManager = LinearLayoutManager(this@SearchFragment.context)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        searchFragmentBinding.rvUserList.adapter = SearchRecyclerViewAdapter().apply {
+            onClickLikeBtn = {
+                //TODO
+                Log.e("onClickLikeBtn Frag :: ", "$it")
+                Log.e("onClickLikeBtn Frag :: ", "${searchViewModel.gitUsers.value?.get(it)}")
+                lifecycleScope.launch {
+                    searchViewModel.changeLikeStatus(it).observe(viewLifecycleOwner) { result ->
+                        when(result) {
+                            ResultStatus.Loading -> {
+                                Toast.makeText(requireContext(), "Database insert", Toast.LENGTH_SHORT).show()
+                            }
+                            is ResultStatus.Error -> {
+                                Toast.makeText(requireContext(), "failure ${result.throwable}", Toast.LENGTH_SHORT).show()
+                            }
+                            is ResultStatus.Success -> {
+                                if(result.data > 0) {
+                                    sharedViewModel.update.value = true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

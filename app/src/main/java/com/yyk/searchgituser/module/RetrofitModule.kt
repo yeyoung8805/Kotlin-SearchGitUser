@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 object RetrofitModule {
     private const val BASE_URL:String = "https://api.github.com/"
     val service: SearchGitUserInterface

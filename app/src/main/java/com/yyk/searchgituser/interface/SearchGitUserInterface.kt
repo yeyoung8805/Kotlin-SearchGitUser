@@ -24,7 +24,7 @@ interface SearchGitUserInterface {
 
     @GET("/search/users")
     suspend fun getInfoByUsername(
-        @Query("q") keyword: String
+        @Query("q") keyword: String?
     ): UserData
 
 }
