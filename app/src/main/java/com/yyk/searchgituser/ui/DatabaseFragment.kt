@@ -5,18 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.yyk.searchgituser.adapter.SearchRecyclerViewAdapter
 import com.yyk.searchgituser.data.AppDatabase
 import com.yyk.searchgituser.data.GitUserDao
+import com.yyk.searchgituser.data.ResultStatus
 import com.yyk.searchgituser.databinding.FragmentDatabaseBinding
-import com.yyk.searchgituser.repository.GitUserDBRepository
 import com.yyk.searchgituser.viewModel.DatabaseViewModel
-import com.yyk.searchgituser.viewModel.DatabaseViewModelFactory
 import com.yyk.searchgituser.viewModel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,7 +30,7 @@ class DatabaseFragment : Fragment() {
     private val shareViewModel: SharedViewModel by activityViewModels()
 
     @Inject
-    lateinit var adapter: SearchRecyclerViewAdapter
+    lateinit var searchRecyclerViewAdapter: SearchRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +64,34 @@ class DatabaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        databaseFragmentBinding.githubUserView.adapter = adapter
+        databaseFragmentBinding.githubUserView.adapter = searchRecyclerViewAdapter.apply {
+            onClickLikeBtn = {
+                lifecycleScope.launch {
+                    databaseViewModel.disLike(it).observe(viewLifecycleOwner) { result ->
+                        when(result) {
+                            ResultStatus.Loading -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Database Delete",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            is ResultStatus.Error -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Failure ${result.throwable}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            is ResultStatus.Success -> {
+                               if(result.data != 0){
+                                   shareViewModel.update.value = true
+                               }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

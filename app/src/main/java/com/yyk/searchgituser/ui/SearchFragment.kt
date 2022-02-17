@@ -6,22 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.yyk.searchgituser.R
 import com.yyk.searchgituser.adapter.SearchRecyclerViewAdapter
 import com.yyk.searchgituser.data.AppDatabase
 import com.yyk.searchgituser.data.GitUserDao
 import com.yyk.searchgituser.data.ResultStatus
 import com.yyk.searchgituser.databinding.FragmentSearchBinding
-import com.yyk.searchgituser.repository.GitUserAPIRepository
-import com.yyk.searchgituser.repository.GitUserDBRepository
 import com.yyk.searchgituser.viewModel.SearchViewModel
-import com.yyk.searchgituser.viewModel.SearchViewModelFactory
 import com.yyk.searchgituser.viewModel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,15 +27,10 @@ class SearchFragment : Fragment() {
     lateinit var gitUserDao: GitUserDao
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-//    private val searchViewModel : SearchViewModel by viewModels { SearchViewModelFactory(
-//            GitUserAPIRepository(),
-//            GitUserDBRepository(gitUserDao)
-//    )}
-
     private val searchViewModel : SearchViewModel by viewModels()
 
     @Inject
-    lateinit var adapter : SearchRecyclerViewAdapter
+    lateinit var searchRecyclerViewAdapter : SearchRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +47,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchFragmentBinding.rvUserList.adapter = adapter.apply {
+        searchFragmentBinding.rvUserList.adapter = searchRecyclerViewAdapter.apply {
             onClickLikeBtn = {
                 //TODO
                 Log.e("onClickLikeBtn Frag :: ", "$it")

@@ -8,52 +8,65 @@
             type="com.yyk.searchgituser.data.Data" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_view"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#cccccc">
 
-        <ImageView
-            android:id="@+id/iv_profile_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@mipmap/ic_launcher_round"
-            imageUrl="@{user.avatar_url}"/>
-
-        <TextView
-            android:id="@+id/tv_user_id"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
-            android:text="@{user.login}"
-            android:textSize="30dp" />
+            android:background="@color/white"
+            android:padding="8dp">
 
-        <Button
-            android:id="@+id/btn_like"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
-            android:text="Like"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/grey"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_id"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <ImageView
+                android:id="@+id/iv_profile_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@mipmap/ic_launcher_round"
+                imageUrl="@{user.avatar_url}"/>
 
-        <TextView
-            android:id="@+id/tv_user_github_url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/tv_user_id"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile_image"
-            android:text="@{user.html_url}"
-            android:textSize="20dp"
-            android:ellipsize="marquee" />
+            <TextView
+                android:id="@+id/tv_user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
+                android:text="@{user.login}"
+                android:textSize="30dp"
+                android:textColor="@color/black"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btn_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                activateButton="@{user.isLike}"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/grey"
+                app:layout_constraintTop_toTopOf="@+id/tv_user_id"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_user_github_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tv_user_id"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_profile_image"
+                android:text="@{user.html_url}"
+                android:textSize="20dp"
+                android:ellipsize="marquee" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 </layout>

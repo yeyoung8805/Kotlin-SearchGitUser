@@ -26,15 +26,7 @@ class DatabaseViewModel @Inject constructor(private val gitUserDBRepo : GitUserD
             _gitUsers.postValue(ArrayList(gitUserDBRepo.selectAll()))
         }
     }
+
+    fun disLike(position: Int) = gitUserDBRepo.deleteOne(_gitUsers.value?.get(position)?.login!!)
 }
 
-class DatabaseViewModelFactory(
-    private val gitUserDBRepo : GitUserDBRepository
-    ): ViewModelProvider.Factory {
-    override fun <T: ViewModel?> create(modelClass: Class<T>) : T {
-        if(modelClass.isAssignableFrom(DatabaseViewModel::class.java)) {
-            return DatabaseViewModel(gitUserDBRepo) as T
-        }
-        throw IllegalArgumentException("Not Found ViewModel Class!")
-    }
-}

@@ -21,24 +21,25 @@ class SearchRecyclerViewAdapter @Inject constructor(@ActivityContext context: Co
 
     inner class MyViewHolder(private val binding : ItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(data: Data, position: Int){
+        fun bind(data: Data){
             binding.user = data
             binding.btnLike.setOnClickListener {
-                onClickLikeBtn?.invoke(position)
-                Log.e("yyk binding Listener :: ", "$position")
+                onClickLikeBtn?.invoke(layoutPosition)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): MyViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.apply {
-            bind(getItem(position), position)
+            bind(getItem(position))
         }
     }
 
@@ -51,7 +52,7 @@ class SearchRecyclerViewAdapter @Inject constructor(@ActivityContext context: Co
 
             override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
                 Log.e("yyk : ", "areContentsTheSame = $oldItem $newItem")
-                return oldItem.login == newItem.login
+                return oldItem.html_url == newItem.html_url
             }
         }
     }
