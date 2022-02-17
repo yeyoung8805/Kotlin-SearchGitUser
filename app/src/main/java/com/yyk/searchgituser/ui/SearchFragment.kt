@@ -49,7 +49,6 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         searchFragmentBinding.rvUserList.adapter = searchRecyclerViewAdapter.apply {
             onClickLikeBtn = {
-                //TODO
                 Log.e("onClickLikeBtn Frag :: ", "$it")
                 Log.e("onClickLikeBtn Frag :: ", "${searchViewModel.gitUsers.value?.get(it)}")
                 lifecycleScope.launch {
@@ -101,6 +100,7 @@ class SearchFragment : Fragment() {
                 }
                 is ResultStatus.Success -> {
                     if(result.data != null) {
+                        //TODO
 
                     }
                 }
