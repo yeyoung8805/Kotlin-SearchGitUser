@@ -70,7 +70,7 @@ class SearchFragment : Fragment() {
                                 ).show()
                             }
                             is ResultStatus.Success -> {
-                                if(result.data > 0) {
+                                if(result.data != 0) {
                                     sharedViewModel.update.value = true
                                 }
                             }
