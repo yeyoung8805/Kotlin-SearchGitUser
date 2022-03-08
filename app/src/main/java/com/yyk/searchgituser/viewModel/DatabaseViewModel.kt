@@ -15,17 +15,15 @@ class DatabaseViewModel @Inject constructor(private val gitUserDBRepo : GitUserD
     val gitUsers : LiveData<ArrayList<Data>> = _gitUsers
 
     init {
+        getList()
+    }
+
+    fun getList() {
         viewModelScope.launch(Dispatchers.IO) {
-//            _gitUsers.postValue(ArrayList(gitUserDBRepo.selectAll()))
+            _gitUsers.postValue(ArrayList(gitUserDBRepo.selectAll()))
         }
     }
 
-    fun update() {
-        viewModelScope.launch(Dispatchers.IO) {
-//            _gitUsers.postValue(ArrayList(gitUserDBRepo.selectAll()))
-        }
-    }
-
-    fun disLike(position: Int) = gitUserDBRepo.deleteOne(_gitUsers.value?.get(position)?.login!!)
+    fun changeStatus(position: Int) = gitUserDBRepo.changeLikeStatus(position, _gitUsers.value)
 }
 

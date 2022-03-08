@@ -36,7 +36,7 @@ class DatabaseFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         gitUserDao = AppDatabase.getInstance(requireContext()).gitUserDao()
         databaseFragmentBinding = FragmentDatabaseBinding.inflate(inflater, container, false).apply {
             vm = databaseViewModel
@@ -47,7 +47,7 @@ class DatabaseFragment : Fragment() {
         shareViewModel.update.observe(viewLifecycleOwner) {
             if(it) {
                 Log.e("yyk :: ", "UPDATE")
-                databaseViewModel.update()
+                databaseViewModel.getList()
             }
         }
 
@@ -67,28 +67,32 @@ class DatabaseFragment : Fragment() {
         databaseFragmentBinding.githubUserView.adapter = searchRecyclerViewAdapter.apply {
             onClickLikeBtn = {
                 lifecycleScope.launch {
-                    databaseViewModel.disLike(it).observe(viewLifecycleOwner) { result ->
-                        when(result) {
-                            ResultStatus.Loading -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Database Delete",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is ResultStatus.Error -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Failure ${result.throwable}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is ResultStatus.Success -> {
-                               if(result.data != 0){
-                                   shareViewModel.update.value = true
-                               }
-                            }
-                        }
+                    changeLikeStatus(it)
+                }
+            }
+        }
+    }
+
+    private fun changeLikeStatus(position: Int) {
+        databaseViewModel.disLike(position).observe(viewLifecycleOwner) { result ->
+            when(result) {
+                ResultStatus.Loading -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Database Delete",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is ResultStatus.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Failure ${result.throwable}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is ResultStatus.Success -> {
+                    if(result.data != 0){
+                        shareViewModel.update.value = true
                     }
                 }
             }

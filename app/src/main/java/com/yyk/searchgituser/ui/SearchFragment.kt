@@ -42,6 +42,16 @@ class SearchFragment : Fragment() {
             viewModel = searchViewModel
             lifecycleOwner = this@SearchFragment
         }
+        searchFragmentBinding.btnEnter.setOnClickListener {
+            showList()
+        }
+        searchFragmentBinding.rvUserList.adapter = searchRecyclerViewAdapter.apply {
+            onClickLikeBtn = {
+                lifecycleScope.launch {
+                    changeLikeStatus(it)
+                }
+            }
+        }
         return searchFragmentBinding.root
     }
 
@@ -52,36 +62,14 @@ class SearchFragment : Fragment() {
                 Log.e("onClickLikeBtn Frag :: ", "$it")
                 Log.e("onClickLikeBtn Frag :: ", "${searchViewModel.gitUsers.value?.get(it)}")
                 lifecycleScope.launch {
-                    searchViewModel.changeLikeStatus(it).observe(viewLifecycleOwner) { result ->
-                        when(result) {
-                            ResultStatus.Loading -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Database insert",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is ResultStatus.Error -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "failure ${result.throwable}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            is ResultStatus.Success -> {
-                                if(result.data != 0) {
-                                    sharedViewModel.update.value = true
-                                }
-                            }
-                        }
-                    }
+
                 }
             }
         }
     }
 
     private fun showList() {
-        searchViewModel.showGitUser().observe(viewLifecycleOwner) { result ->
+        searchViewModel.getList().observe(viewLifecycleOwner) { result ->
             when(result) {
                 is ResultStatus.Loading -> {
                     Toast.makeText(
@@ -100,12 +88,42 @@ class SearchFragment : Fragment() {
                 }
                 is ResultStatus.Success -> {
                     if(result.data != null) {
-                        //TODO
-
+                        Toast.makeText(
+                            requireContext(),
+                            "success",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        searchViewModel.filteringList(result.data.items)
                     }
                 }
             }
 
+        }
+    }
+
+    private fun changeLikeStatus(position: Int) {
+        searchViewModel.changeStatus(position).observe(viewLifecycleOwner) { result ->
+            when(result) {
+                ResultStatus.Loading -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Database insert",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is ResultStatus.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "failure ${result.throwable}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is ResultStatus.Success -> {
+                    if(result.data != 0) {
+                        sharedViewModel.update.value = true
+                    }
+                }
+            }
         }
     }
 

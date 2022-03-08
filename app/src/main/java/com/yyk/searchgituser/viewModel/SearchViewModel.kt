@@ -6,6 +6,7 @@ import com.yyk.searchgituser.data.ResultStatus
 import com.yyk.searchgituser.repository.GitUserAPIRepository
 import com.yyk.searchgituser.repository.GitUserDBRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.lang.IllegalArgumentException
@@ -27,41 +28,12 @@ class SearchViewModel @Inject constructor(
         enterTxt.value = "yeyoung"
     }
 
-    fun showGitUser() = gitUserAPIRepo.getGitUsers(enterTxt.value)
-
-//    fun getUserData() {
-//        viewModelScope.launch {
-//            val result = gitUserAPIRepo.getGitUsers(enterTxt.value)
-//            _gitUsers.value = result.items
-//        }
-//    }
-
-    fun changeLikeStatus(position: Int) = liveData {
-        emit(ResultStatus.Loading)
-        try {
-            var gitUserDB = _gitUsers.value?.get(position)
-//            emit(ResultStatus.Success(gitUserDBRepo.insert(gitUserDB)))
-            if(!gitUserDB?.isLike!!) {
-                gitUserDB?.isLike = true
-                emit(ResultStatus.Success(gitUserDBRepo.insert(gitUserDB)))
-            }else {
-                gitUserDB?.isLike = false
-                emit(ResultStatus.Success(gitUserDBRepo.deleteOne(gitUserDB.login)))
-            }
-        }catch(e: Exception) {
-            emit(ResultStatus.Error(e))
+    fun getList() = gitUserAPIRepo.getGitUsers(enterTxt.value)
+    fun changeStatus(position: Int) = gitUserDBRepo.changeLikeStatus(position, _gitUsers.value)
+    fun filteringList(gitUserList: ArrayList<Data>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _gitUsers.postValue(gitUserDBRepo.filterSearchResult(gitUserList))
         }
     }
-}
 
-//class SearchViewModelFactory(
-//    private val gitUserAPIRepo: GitUserAPIRepository,
-//    private val gitUserDBRepo: GitUserDBRepository
-//): ViewModelProvider.Factory {
-//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//        if(modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-//            return SearchViewModel(gitUserAPIRepo, gitUserDBRepo) as T
-//        }
-//        throw IllegalArgumentException("Not found ViewModel Class!")
-//    }
-//}
+}
